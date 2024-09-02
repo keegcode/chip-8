@@ -56,10 +56,14 @@ void cpuLoadCode(CPU* cpu, const char* filepath);
 void cpuNext(CPU* cpu, Display* display);
 
 int main(int argc, char *argv[]) {
-  Display* display = displayCreate();
   CPU cpu = {.PC=512,.isRunning=true};
 
   memcpy(cpu.ram, sprites, sizeof(sprites));
+
+  assert(argc >= 2 && "Please provide path to a .ch8 emu file");
+  cpuLoadCode(&cpu, argv[1]);
+
+  Display* display = displayCreate();
 
   if (!display) {
     const char* error = SDL_GetError();
@@ -67,8 +71,6 @@ int main(int argc, char *argv[]) {
     displayDestroy(display);
     return -1;
   }
-  
-  cpuLoadCode(&cpu, argv[1]);
 
   while (cpu.isRunning) {
     cpuNext(&cpu, display);
@@ -168,8 +170,6 @@ void displayDestroy(Display* display) {
 }
 
 void cpuLoadCode(CPU* cpu, const char* filepath) {
-  assert(strlen(filepath) > 0 && "Please provide path to a .ch8 emu file");
-
   FILE* file = fopen(filepath, "r");
   uint16_t code = cpu->PC;
 
