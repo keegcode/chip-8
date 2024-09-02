@@ -6,5 +6,5 @@
 ## How to run:
 ```
 make
-./chip-8 <filename>
+./chip8 <filename>
 ```
