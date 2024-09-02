@@ -6,5 +6,5 @@
 ## How to run:
 ```
 make
-./emu <filename>
+./chip-8 <filename>
 ```
